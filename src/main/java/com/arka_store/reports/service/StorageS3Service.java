@@ -21,10 +21,10 @@ import java.io.File;
 public class StorageS3Service implements StorageService {
     private final S3Client s3Client;
     @Value("${s3.endpoint}")
-    private final String localstackEndpoint;
+    private  String localstackEndpoint;
 
     @Value("${s3.bucket-name}")
-    private final String defaultBucketName;
+    private  String defaultBucketName;
 
     @Override
     public String uploadFile(File file, String targetBucketName, String key) {
