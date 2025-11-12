@@ -6,7 +6,7 @@ spring:
     name: reports-service
 
   datasource:
-    url: jdbc:postgresql://host.docker.internal:5432/reports
+    url: jdbc:postgresql://localhost:5432/reports
     username: postgres
     password: simple123
     driver-class-name: org.postgresql.Driver
@@ -19,7 +19,21 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
+  cloud:
+    function:
+      definition: reportSend
+    stream:
+      bindings:
+        reportSend-out-0:
+          destination: report.send.exchange
+          content-type: application/json
+          producer:
+            durable-expression: true
 eureka:
   client:
     service-url:
@@ -30,3 +44,28 @@ eureka:
     prefer-ip-address: true
     hostname: reports
     instance-id: ${spring.application.name}:${server.port}
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+  group-configs:
+    - group: reports
+      paths-to-match: /reports/**
+      packages-to-scan: com.arka_store.reports
+
+s3:
+  bucket-name: arka-metrics-reports
+  endpoint: http://localhost:4566
+  region: us-east-1
+
+cloud:
+  aws:
+    region:
+      static: ${s3.region}
+    credentials:
+      access-key: test
+      secret-key: test

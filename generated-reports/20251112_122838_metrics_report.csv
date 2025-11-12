@@ -1,0 +1,36 @@
+Metric,Value
+Report Generated At,2025-11-12T12:28:38.835265800
+Data Period,Latest Snapshot
+
+Order Metrics
+Total Orders,44
+Accepted Orders,11
+Pending Orders,8
+Total Sales Amount,618.90
+Average Order Value,56.26
+Best-Selling Product (Name),Cerveza Corona
+Best-Selling Product (Count),522
+Least-Selling Product (Name),Stella Artois
+Least-Selling Product (Count),2
+
+Payment Metrics
+Total Payments Processed,6
+Accepted Payments,6
+Canceled Payments,0
+Declined Payments,0
+Max Payment Amount,146.80
+Min Payment Amount,7.34
+Average Payment Amount,74.98
+Payments by Credit Card,6
+Payments by PayPal,0
+Payments by PSE,0
+
+Shipping Metrics
+Total Shipments Registered,17
+Shipments Sent,2
+Shipments Received,5
+Shipments Returned,0
+
+Product Metrics
+Registered Products,9
+Unique Categories,4
