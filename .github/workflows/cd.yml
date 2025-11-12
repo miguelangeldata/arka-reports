@@ -1,0 +1,43 @@
+name: CD - Reports Service
+
+on:
+  workflow_run:
+    workflows: ["CI - Reports Service"]
+    types:
+      - completed
+    branches:
+      - main
+
+jobs:
+  docker:
+    name: Build & Push Docker Image
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Extract version from build.gradle
+        id: version
+        run: |
+          VERSION=$(grep "version = " build.gradle | cut -d"'" -f2)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Building reports-service v$VERSION"
+
+      - name: Build and Push Docker image
+        run: |
+          IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/arka-reports
+          VERSION=${{ steps.version.outputs.version }}
+          
+          docker build -t $IMAGE:$VERSION -t $IMAGE:latest .
+          docker push $IMAGE:$VERSION
+          docker push $IMAGE:latest
+          
+          echo "Pushed $IMAGE:$VERSION and $IMAGE:latest"
