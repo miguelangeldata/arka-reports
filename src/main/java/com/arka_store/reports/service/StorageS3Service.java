@@ -39,7 +39,7 @@ public class StorageS3Service implements StorageService {
 
         s3Client.putObject(putObjectRequest, RequestBody.fromFile(file));
 
-        String fileUrl = String.format("%s/%s/%s", localstackEndpoint, targetBucketName, key);
+        String fileUrl = String.format("http://localhost:4566/%s/%s", targetBucketName, key);
         log.info("File uploaded to LocalStack: {}", fileUrl);
         return fileUrl;
     }
