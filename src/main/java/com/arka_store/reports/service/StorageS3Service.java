@@ -19,12 +19,14 @@ import java.io.File;
 @RequiredArgsConstructor
 @Slf4j
 public class StorageS3Service implements StorageService {
+
     private final S3Client s3Client;
+
     @Value("${s3.endpoint}")
-    private  String localstackEndpoint;
+    private String localstackEndpoint;
 
     @Value("${s3.bucket-name}")
-    private  String defaultBucketName;
+    private String defaultBucketName;
 
     @Override
     public String uploadFile(File file, String targetBucketName, String key) {
@@ -38,8 +40,8 @@ public class StorageS3Service implements StorageService {
         s3Client.putObject(putObjectRequest, RequestBody.fromFile(file));
 
         String fileUrl = String.format("%s/%s/%s", localstackEndpoint, targetBucketName, key);
-        log.info("File Upload to LocalStack: {}", fileUrl); // Usamos logger
-        return  fileUrl;
+        log.info("File uploaded to LocalStack: {}", fileUrl);
+        return fileUrl;
     }
 
     private void createBucketIfNotExist(String bucketName) {

@@ -64,8 +64,6 @@ s3:
 
 cloud:
   aws:
-    region:
-      static: ${s3.region}
     credentials:
       access-key: test
       secret-key: test
